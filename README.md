@@ -74,8 +74,9 @@ query {
 # Weather forecasts for selected city. The weather data for the current weather forecast and all the available hourly weather forecasts for that city
 
 ```graphql
+# Fetch hourly weather forecasts
 query {
-  weatherForecast(latitude: -26.20227, longitude: 28.04363) {
+  hourlyWeatherForecast(latitude: -26.20227, longitude: 28.04363) {
     timezone
     timezone_abbreviation
     current_weather {
@@ -90,6 +91,60 @@ query {
       temperature
       weather_code
       weather_description
+    }
+  }
+}
+```
+
+```graphql
+# Fetch daily weather forecasts
+query {
+  dailyWeatherForecast(latitude: -26.20227, longitude: 28.04363) {
+    latitude
+    longitude
+    timezone
+    timezone_abbreviation
+    current_weather {
+      time
+      temperature
+      weather_code
+      weather_description
+      isDay
+    }
+    daily_forecast {
+      date
+      temperature_min
+      temperature_max
+      weather_code
+      weather_description
+      wind_speed_max
+      precipitation_sum
+    }
+  }
+}
+```
+
+```graphql
+# This service ranks 4 activities (Skiing, Surfing, Indoor sightseeing, Outdoor sightseeing) based on daily weather conditions, using the forecast data retrieved from openMeteoService
+query {
+  activityRankings(latitude: -26.20227, longitude: 28.04363) {
+    date
+    weatherSummary
+    skiing {
+      explanation
+      score
+    }
+    surfing {
+      explanation
+      score
+    }
+    indoorSightseeing {
+      explanation
+      score
+    }
+    outdoorSightseeing {
+      explanation
+      score
     }
   }
 }

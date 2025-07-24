@@ -1,30 +1,17 @@
 import axios from "axios";
-import { WeatherForecast } from "../types/types"; // You can extend this file for matching types
-
-// interface OpenMeteoApiResponse {
-//   latitude: number;
-//   longitude: number;
-//   timezone: string;
-//   timezone_abbreviation: string;
-//   current_weather: {
-//     temperature: number;
-//     weathercode: number;
-//     time: string;
-//     is_day: number;
-//   };
-//   hourly: {
-//     time: string[];
-//     temperature_2m: number[];
-//   };
-// }
+import { HourlyWeatherForecast, DailyWeatherForecast } from "../types/types"; // You can extend this file for matching types
 
 class WeatherForecastService {
   private forecastUrl = "https://api.open-meteo.com/v1/forecast";
 
-  async getWeatherForecast(
+  /**
+   * Get hourly weather forecast
+   */
+
+  async getHourlyWeatherForecast(
     latitude: number,
     longitude: number
-  ): Promise<WeatherForecast> {
+  ): Promise<HourlyWeatherForecast> {
     try {
       const response = await axios.get(this.forecastUrl, {
         params: {
@@ -71,6 +58,80 @@ class WeatherForecastService {
         timezone_abbreviation,
         current_weather: formattedCurrent,
         hourly_forecast: hourlyData,
+      };
+    } catch (error) {
+      console.error("Failed to fetch weather data:", error);
+      throw new Error("Unable to retrieve weather forecast.");
+    }
+  }
+
+  /**
+   * Get daily weather forecast
+   */
+
+  async getDailyWeatherForecast(
+    latitude: number,
+    longitude: number
+  ): Promise<DailyWeatherForecast> {
+    try {
+      const response = await axios.get(this.forecastUrl, {
+        params: {
+          latitude,
+          longitude,
+          daily: [
+            "weather_code",
+            "temperature_2m_max",
+            "temperature_2m_min",
+            "precipitation_sum",
+            "wind_speed_10m_max",
+          ],
+          current_weather: true,
+          timezone: "auto",
+        },
+      });
+
+      const {
+        latitude: lat,
+        longitude: lon,
+        timezone,
+        timezone_abbreviation,
+        current_weather,
+        daily,
+      } = response.data;
+
+      const formattedCurrent = {
+        time: current_weather.time,
+        temperature: current_weather.temperature,
+        weather_code: current_weather.weathercode,
+        weather_description: this._getWeatherDescription(
+          current_weather.weathercode
+        ),
+        isDay: current_weather.is_day === 1,
+      };
+
+      const dailyForecast: any[] = [];
+
+      for (let i = 0; i < daily.time.length; i++) {
+        dailyForecast.push({
+          date: daily.time[i],
+          temperature_min: daily.temperature_2m_min[i],
+          temperature_max: daily.temperature_2m_max[i],
+          weather_code: daily.weather_code[i],
+          weather_description: this._getWeatherDescription(
+            daily.weather_code[i]
+          ),
+          wind_speed_max: daily.wind_speed_10m_max[i],
+          precipitation_sum: daily.precipitation_sum[i],
+        });
+      }
+
+      return {
+        latitude: lat,
+        longitude: lon,
+        timezone,
+        timezone_abbreviation,
+        current_weather: formattedCurrent,
+        daily_forecast: dailyForecast,
       };
     } catch (error) {
       console.error("Failed to fetch weather data:", error);

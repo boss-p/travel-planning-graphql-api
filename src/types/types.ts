@@ -16,26 +16,52 @@ export type HourlyWeather = {
   weather_description: string;
 };
 
-export type WeatherForecast = {
+export type CurrentWeather = {
+  temperature: number;
+  weather_code: number;
+  weather_description: string;
+  time: string;
+  isDay: boolean;
+};
+
+export type DailyWeather = {
+  date: string;
+  temperature_min: number;
+  temperature_max: number;
+  weather_code: number;
+  weather_description: string;
+  wind_speed_max: number;
+  precipitation_sum: number;
+};
+
+export type HourlyWeatherForecast = {
   latitude: number;
   longitude: number;
   timezone: string;
   timezone_abbreviation: string;
-  current_weather: {
-    temperature: number;
-    weather_code: number;
-    weather_description: string;
-    time: string;
-    isDay: boolean;
-  };
+  current_weather: CurrentWeather;
   hourly_forecast: HourlyWeather[];
 };
 
-export type ActivityRanking = {
-  activity: string;
+export type DailyWeatherForecast = {
+  latitude: number;
+  longitude: number;
+  timezone: string;
+  timezone_abbreviation: string;
+  current_weather: CurrentWeather;
+  daily_forecast: DailyWeather[];
+};
+
+export type RankingScore = {
+  explanation: string;
   score: number;
 };
 
 export type ActivityRankings = {
-  rankings: ActivityRanking[];
+  date: string;
+  skiing: RankingScore;
+  surfing: RankingScore;
+  indoorSightseeing: RankingScore;
+  outdoorSightseeing: RankingScore;
+  weatherSummary: string;
 };
