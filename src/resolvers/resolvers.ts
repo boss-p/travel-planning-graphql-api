@@ -1,6 +1,7 @@
+import activityRankingService from "../services/activityRankingService";
 import searchCitiesService from "../services/searchCitiesService";
 import weatherForecastService from "../services/weatherForecastService";
-import { City, WeatherForecast, ActivityRankings } from "../types/types";
+import { City, HourlyWeatherForecast, ActivityRankings, DailyWeatherForecast } from "../types/types";
 
 export const resolvers = {
   Query: {
@@ -24,36 +25,64 @@ export const resolvers = {
       }
     },
 
-    // Get weather forecast for a selected city
+    // Get hourly weather forecast for a selected city
     /**
-     * Get weather forecast for a specific location
+     * Get hourly weather forecast for a specific location
      * @param {number} latitude - The latitude
      * @param {number} longitude - The longitude
      * @returns {Promise<Object>} - Weather forecast data
      */
-      weatherForecast: async (
-        _: any,
-        { latitude, longitude }: { latitude: number; longitude: number }
-      ): Promise<WeatherForecast | null> => {
-        try {
-          const forecasts = await weatherForecastService.getWeatherForecast(
-            latitude,
-            longitude
-          );
-          return forecasts;
-        } catch (error) {
-          console.error("Failed to fetch weather data: ", error);
-          return null; // Return an empty list instead of null
-        }
-      },
+    hourlyWeatherForecast: async (
+      _: any,
+      { latitude, longitude }: { latitude: number; longitude: number }
+    ): Promise<HourlyWeatherForecast | null> => {
+      try {
+        const forecasts = await weatherForecastService.getHourlyWeatherForecast(
+          latitude,
+          longitude
+        );
+        return forecasts;
+      } catch (error) {
+        console.error("Failed to fetch weather data: ", error);
+        return null; // Return null if empty
+      }
+    },
+
+    // Get daily weather forecast for a selected city
+    /**
+     * Get daily weather forecast for a specific location
+     * @param {number} latitude - The latitude
+     * @param {number} longitude - The longitude
+     * @returns {Promise<Object>} - Weather forecast data
+     */
+    dailyWeatherForecast: async (
+      _: any,
+      { latitude, longitude }: { latitude: number; longitude: number }
+    ): Promise<DailyWeatherForecast | null> => {
+      try {
+        const forecasts = await weatherForecastService.getDailyWeatherForecast(
+          latitude,
+          longitude
+        );
+        return forecasts;
+      } catch (error) {
+        console.error("Failed to fetch weather data: ", error);
+        return null; // Return null if empty
+      }
+    },
 
     // Get activity rankings based on weather forecast for a location
-    // activityRankings: async (
-    //   _: unknown,
-    //   args: { latitude: number; longitude: number }
-    // ): Promise<ActivityRankings> => {
-    //   return await activityRankingService.getActivityRankings(args.latitude, args.longitude);
-    // }
+    activityRankings: async (
+      _: unknown,
+      args: { latitude: number; longitude: number }
+    ): Promise<ActivityRankings | null> => {
+      try {
+        return await activityRankingService.getActivityRankings(args.latitude, args.longitude);
+      } catch (error) {
+        console.error("Failed to get activity rankings:", error);
+        return null;
+      }
+    }
   },
 };
 

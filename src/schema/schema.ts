@@ -13,14 +13,23 @@ export const typeDefs = gql`
     population: Int
   }
 
-# Weather forcasts types
-  type WeatherForecast {
+  # Weather forcasts types
+  type HourlyWeatherForecast {
     latitude: Float!
     longitude: Float!
     timezone: String
     timezone_abbreviation: String
     current_weather: CurrentWeather!
     hourly_forecast: [HourlyWeather!]!
+  }
+
+  type DailyWeatherForecast {
+    latitude: Float!
+    longitude: Float!
+    timezone: String
+    timezone_abbreviation: String
+    current_weather: CurrentWeather!
+    daily_forecast: [DailyWeather!]!
   }
 
   type CurrentWeather {
@@ -38,24 +47,47 @@ export const typeDefs = gql`
     weather_description: String
   }
 
-# Activity ranking types
-  type ActivityRanking {
-    activity: String!
-    score: Float!
+  type DailyWeather {
+    date: String!
+    temperature_min: Float!
+    temperature_max: Float!
+    weather_code: Int
+    weather_description: String
+    wind_speed_max: Float
+    precipitation_sum: Float
   }
 
+  # Activity ranking types
   type ActivityRankings {
-    rankings: [ActivityRanking!]!
+    date: String!
+    skiing: RankingScore!
+    surfing: RankingScore!
+    indoorSightseeing: RankingScore!
+    outdoorSightseeing: RankingScore!
+    weatherSummary: String!
+  }
+  type RankingScore {
+    explanation: String!
+    score: Float!
   }
 
   type Query {
     # Get city suggestions based on partial or complete user input
     citySuggestions(query: String!): [City!]!
 
-    # Get weather forecast for a selected city
-    weatherForecast(latitude: Float!, longitude: Float!): WeatherForecast
+    # Get hourly weather forecast for a selected city
+    hourlyWeatherForecast(
+      latitude: Float!
+      longitude: Float!
+    ): HourlyWeatherForecast
+
+    # Get daily weather forecast for a selected city
+    dailyWeatherForecast(
+      latitude: Float!
+      longitude: Float!
+    ): DailyWeatherForecast
 
     # Get activity rankings based on weather forecast for a location
-    # activityRankings(latitude: Float!, longitude: Float!): ActivityRankings!
+    activityRankings(latitude: Float!, longitude: Float!): ActivityRankings
   }
 `;
