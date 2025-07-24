@@ -5,8 +5,8 @@ import { City, HourlyWeatherForecast, ActivityRankings, DailyWeatherForecast } f
 
 export const resolvers = {
   Query: {
+    //Get city suggestions based on user input
     /**
-     * Get city suggestions based on user input
      * @param {Object} _ - Parent object (not used)
      * @param {Object} args - Query arguments
      * @param {string} args.query - The search query
@@ -27,7 +27,6 @@ export const resolvers = {
 
     // Get hourly weather forecast for a selected city
     /**
-     * Get hourly weather forecast for a specific location
      * @param {number} latitude - The latitude
      * @param {number} longitude - The longitude
      * @returns {Promise<Object>} - Weather forecast data
@@ -50,7 +49,6 @@ export const resolvers = {
 
     // Get daily weather forecast for a selected city
     /**
-     * Get daily weather forecast for a specific location
      * @param {number} latitude - The latitude
      * @param {number} longitude - The longitude
      * @returns {Promise<Object>} - Weather forecast data
@@ -72,6 +70,11 @@ export const resolvers = {
     },
 
     // Get activity rankings based on weather forecast for a location
+    /**
+     * @param {number} latitude - The latitude
+     * @param {number} longitude - The longitude
+     * @returns {Promise<Object>} - Activity rankings data
+     */
     activityRankings: async (
       _: unknown,
       args: { latitude: number; longitude: number }

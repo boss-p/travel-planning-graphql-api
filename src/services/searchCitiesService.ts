@@ -4,8 +4,8 @@ import { City } from "../types/types";
 class SearchCitiesService {
   private geocodingBaseUrl = "https://geocoding-api.open-meteo.com/v1/search";
   
+  //Search for cities based on a query string
   /**
-   * Search for cities based on a query string
    * @param {string} query - The search query
    * @returns {Promise<Array>} - Array of city objects
    */

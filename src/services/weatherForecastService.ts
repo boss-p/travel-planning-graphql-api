@@ -1,5 +1,5 @@
 import axios from "axios";
-import { HourlyWeatherForecast, DailyWeatherForecast } from "../types/types"; // You can extend this file for matching types
+import { HourlyWeatherForecast, DailyWeatherForecast } from "../types/types";
 
 class WeatherForecastService {
   private forecastUrl = "https://api.open-meteo.com/v1/forecast";
