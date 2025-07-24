@@ -75,8 +75,13 @@ export const resolvers = {
     activityRankings: async (
       _: unknown,
       args: { latitude: number; longitude: number }
-    ): Promise<ActivityRankings> => {
-      return await activityRankingService.getActivityRankings(args.latitude, args.longitude);
+    ): Promise<ActivityRankings | null> => {
+      try {
+        return await activityRankingService.getActivityRankings(args.latitude, args.longitude);
+      } catch (error) {
+        console.error("Failed to get activity rankings:", error);
+        return null;
+      }
     }
   },
 };

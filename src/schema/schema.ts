@@ -88,6 +88,6 @@ export const typeDefs = gql`
     ): DailyWeatherForecast
 
     # Get activity rankings based on weather forecast for a location
-    activityRankings(latitude: Float!, longitude: Float!): ActivityRankings!
+    activityRankings(latitude: Float!, longitude: Float!): ActivityRankings
   }
 `;
