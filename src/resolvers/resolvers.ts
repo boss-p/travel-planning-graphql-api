@@ -82,7 +82,7 @@ export const resolvers = {
       try {
         return await activityRankingService.getActivityRankings(args.latitude, args.longitude);
       } catch (error) {
-        console.error("Failed to get activity rankings:", error);
+        console.error("Failed to get activity rankings: ", error);
         return null;
       }
     }
