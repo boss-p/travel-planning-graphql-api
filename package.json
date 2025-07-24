@@ -1,0 +1,27 @@
+{
+  "name": "travel-planning-graphql-api",
+  "version": "1.0.0",
+  "description": "A scalable and maintainable GraphQL API that supports a travel planning application.",
+  "main": "src/index.ts",
+  "scripts": {
+    "start": "ts-node src/index.ts",
+    "dev": "nodemon --watch src --exec ts-node src/index.ts",
+    "test": "jest"
+  },
+  "author": "Philemon Maitisa",
+  "license": "ISC",
+  "dependencies": {
+    "@apollo/server": "^4.12.2",
+    "axios": "^1.11.0",
+    "graphql": "^16.11.0",
+    "graphql-tag": "^2.12.6",
+    "jest": "^30.0.5",
+    "nodemon": "^3.1.10",
+    "openmeteo": "^1.2.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.19.9",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.3.3"
+  }
+}
