@@ -139,7 +139,7 @@ class WeatherForecastService {
     }
   }
 
-  /**
+  /*
    * Get weather description from code
    */
   private _getWeatherDescription(code: number): string {
