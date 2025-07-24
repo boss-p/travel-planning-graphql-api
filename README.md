@@ -74,7 +74,7 @@ GraphQL/
 ├── jest.config.js           # Jest configuration
 ├── tsconfig.json            # TypeScript configuration
 ├── package.json             # Dependencies and scripts
-└── API_DOCUMENTATION.md     # This documentation
+└── README.md                # This documentation
 ```
 
 ### Folder Descriptions
