@@ -13,6 +13,7 @@ A scalable GraphQL API for travel planning that provides city suggestions, weath
 - **Testing**: Jest with ts-jest
 - **Development**: Nodemon, ts-node
 - **External APIs**: Open-Meteo (Weather & Geocoding)
+- **Automated Testing**: GitHub Actions Workflow to automate testing
 
 ## Getting Started
 
@@ -169,9 +170,10 @@ query {
 ```
 
 ### Activity Rankings
+# This service ranks 4 activities (Skiing, Surfing, Indoor sightseeing, Outdoor sightseeing) based on daily weather conditions for a selected city, using the forecast data retrieved from the weatherForecastService
 
 ```graphql
-# This service ranks 4 activities (Skiing, Surfing, Indoor sightseeing, Outdoor sightseeing) based on daily weather conditions for a selected city, using the forecast data retrieved from the weatherForecastService
+
 query {
   activityRankings(latitude: -26.20227, longitude: 28.04363) {
     date
@@ -344,6 +346,36 @@ Environment variables:
 - **Logging**: Simple console logging is used. A proper logging system would be needed for production.
 - **Rate Limiting**: No rate limiting for the OpenMeteo API. This could be an issue if the application scales.
 
+## CI/CD Pipeline
+
+### GitHub Actions Workflow
+
+Automated testing is configured using GitHub Actions to ensure code quality and prevent broken code from being merged.
+
+**Workflow Triggers**:
+- Pull requests from `dev` → `staging`
+- Pull requests from `staging` → `master`
+- Only runs when changes are made to the `src/` folder
+
+**Workflow Steps**:
+1. Checkout code
+2. Setup Node.js 18.x with npm caching
+3. Install dependencies (`npm ci`)
+4. Run Jest tests (`npm test`)
+5. Fail workflow if any tests fail
+
+**Branch Protection**:
+To enforce test requirements:
+1. Go to GitHub Settings → Branches
+2. Add protection rules for `master` and `staging`
+3. Enable "Require status checks to pass before merging"
+4. Select "Run Tests" as required status check
+
+**Benefits**:
+- Prevents merging code with failing tests
+- Saves CI resources by only running on source code changes
+- Maintains code quality across development workflow
+
 ## Future Enhancements
 
 With more time, I would add:
@@ -353,7 +385,6 @@ With more time, I would add:
 - **Activity types**: Extend activity types
 - **Historical data**: Add historical weather data
 - **GraphQL Subscriptions**: For real-time weather updates
-- **CI/CD Pipeline**: Automated testing and deployment
 - **Input Validation**: More robust validation of user inputs
 - **More Comprehensive Testing**: Integration tests and more unit tests
 - **Documentation**: More detailed API documentation with examples
