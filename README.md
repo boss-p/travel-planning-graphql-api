@@ -24,7 +24,7 @@ A scalable GraphQL API for travel planning that provides city suggestions, weath
 ### Clone Repository
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/boss-p/travel-planning-graphql-api.git
 cd travel-planning-graphql-api
 ```
 
